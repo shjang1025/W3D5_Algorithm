@@ -9,8 +9,8 @@ class PolyTreeNode
  # node3.parent=
     def parent=(new_parent)
         if new_parent == nil
-            @parent = new_parent
             parent.children.delete(self)
+            @parent = new_parent
         else 
             if parent == nil
                 @parent = new_parent
@@ -34,5 +34,26 @@ class PolyTreeNode
         else
             raise "#{child.value} was not a child of #{self.value}"
         end 
+    end
+    
+    def dfs(target)
+        return self if self.value == target
+
+        self.children.each do |child|
+            search = child.dfs(target)
+            return search unless search.nil?
+        end
+        return nil
+    end
+
+    def bfs(target)
+        queue = [self]
+        until queue.empty?
+            current_node = queue.shift
+            return current_node if current_node.value == target
+
+            queue += current_node.children
+        end
+        return nil
     end
 end
