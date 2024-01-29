@@ -43,6 +43,21 @@ class KnightPathFinder #chess board max row/col index = 7,7
         end
     end
 
+    def find_path(end_pos)
+        end_node = self.root_node.dfs(end_pos)
+        self.trace_path_back(end_node)
+    end
+
+    def trace_path_back(end_node)
+        path = [end_node.value]
+        current_node = end_node
+        until current_node.parent.nil?
+            path.unshift(current_node.parent.value)
+            current_node = current_node.parent
+        end
+        path
+    end
+
 end
 
 if __FILE__ == $PROGRAM_NAME
@@ -50,4 +65,7 @@ test = KnightPathFinder.new([0,0])
 p test #is a node 
 p test.build_move_tree
 p test.considered_positions.length
+p test.find_path([6,2])
+# end_pos = test.find_path([6,2])
+# p test.trace_path_back(end_pos)
 end
